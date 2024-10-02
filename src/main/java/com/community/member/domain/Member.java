@@ -1,6 +1,7 @@
 package com.community.member.domain;
 
 import com.community.global.base.BaseEntity;
+import com.community.member.domain.repository.MemberRepository;
 import com.community.member.domain.vo.Email;
 import com.community.member.domain.vo.Password;
 import jakarta.persistence.*;
@@ -33,12 +34,18 @@ public class Member extends BaseEntity {
         this.password = password;
     }
 
-    public static Member of(String email, String password, PasswordEncoder passwordEncoder) {
+    public static Member of(
+            String email,
+            String password,
+            PasswordEncoder passwordEncoder,
+            MemberRepository memberRepository
+    ) {
         return new Member(
                 null,
-                Email.of(email),
+                Email.of(email, memberRepository),
                 Password.of(password, passwordEncoder),
                 LocalDateTime.now(),
-                null);
+                null
+        );
     }
 }
