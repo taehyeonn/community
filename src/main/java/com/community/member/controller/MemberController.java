@@ -1,6 +1,6 @@
 package com.community.member.controller;
 
-import com.community.member.controller.dto.MemberSignUpRequest;
+import com.community.member.controller.dto.MemberCreateRequest;
 import com.community.member.service.MemberService;
 import com.community.member.service.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping
-    public ResponseEntity<MemberDto> createMember(@RequestBody MemberSignUpRequest request) {
+    public ResponseEntity<MemberDto> createMember(@RequestBody MemberCreateRequest request) {
         MemberDto response = memberService.create(request);
         URI uri = URI.create(String.valueOf(response.id()));
         return ResponseEntity

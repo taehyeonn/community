@@ -1,6 +1,6 @@
 package com.community.member.service;
 
-import com.community.member.controller.dto.MemberSignUpRequest;
+import com.community.member.controller.dto.MemberCreateRequest;
 import com.community.member.domain.Member;
 import com.community.member.domain.repository.MemberRepository;
 import com.community.member.service.dto.MemberDto;
@@ -17,7 +17,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public MemberDto create(MemberSignUpRequest request) {
+    public MemberDto create(MemberCreateRequest request) {
         Member member = Member.of(request.email(), request.password(), passwordEncoder, memberRepository);
         return MemberDto.from(memberRepository.save(member));
     }
