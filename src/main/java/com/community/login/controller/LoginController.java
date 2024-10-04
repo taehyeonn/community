@@ -1,6 +1,6 @@
 package com.community.login.controller;
 
-import com.community.login.service.AuthService;
+import com.community.login.service.LoginService;
 import com.community.login.controller.dto.JwtAuthToken;
 import com.community.login.controller.dto.LoginRequest;
 import org.springframework.http.ResponseEntity;
@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/members/login")
-public class AuthController {
+public class LoginController {
 
-    private final AuthService authService;
+    private final LoginService loginService;
 
-    public AuthController(AuthService authService) {
-        this.authService = authService;
+    public LoginController(LoginService loginService) {
+        this.loginService = loginService;
     }
 
     @PostMapping
     public ResponseEntity<JwtAuthToken> login(@RequestBody LoginRequest request) {
-        JwtAuthToken response = authService.login(request);
+        JwtAuthToken response = loginService.login(request);
         return ResponseEntity.ok(response);
     }
 }

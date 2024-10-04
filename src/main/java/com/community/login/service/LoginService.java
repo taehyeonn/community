@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService {
+public class LoginService {
 
     private final JwtProvider jwtProvider;
     private final MemberRepository memberRepository;
