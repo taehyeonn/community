@@ -29,6 +29,11 @@ public class Email {
         return new Email(email);
     }
 
+    public static Email from(String email) {
+        validateEmail(email);
+        return new Email(email);
+    }
+
     private static void validateEmail(String email) {
         if (email == null || email.isEmpty()) {
             throw new IllegalArgumentException("이메일은 필수입니다.");
