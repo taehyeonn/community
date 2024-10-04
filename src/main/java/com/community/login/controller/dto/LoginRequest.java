@@ -1,4 +1,4 @@
-package com.community.member.controller.dto;
+package com.community.login.controller.dto;
 
 public record LoginRequest(String email, String password) {
 

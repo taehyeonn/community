@@ -1,9 +1,9 @@
-package com.community.member.service;
+package com.community.login.service;
 
 
-import com.community.member.controller.dto.LoginRequest;
-import com.community.member.controller.dto.JwtAuthToken;
 import com.community.global.auth.JwtProvider;
+import com.community.login.controller.dto.JwtAuthToken;
+import com.community.login.controller.dto.LoginRequest;
 import com.community.member.domain.repository.MemberRepository;
 import com.community.member.domain.vo.Email;
 import lombok.RequiredArgsConstructor;

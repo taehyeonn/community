@@ -1,8 +1,8 @@
-package com.community.member.controller;
+package com.community.login.controller;
 
-import com.community.member.controller.dto.LoginRequest;
-import com.community.member.controller.dto.JwtAuthToken;
-import com.community.member.service.AuthService;
+import com.community.login.service.AuthService;
+import com.community.login.controller.dto.JwtAuthToken;
+import com.community.login.controller.dto.LoginRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

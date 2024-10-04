@@ -1,4 +1,4 @@
-package com.community.member.controller.dto;
+package com.community.login.controller.dto;
 
 import lombok.Builder;
 
