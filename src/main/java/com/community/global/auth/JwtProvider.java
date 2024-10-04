@@ -15,10 +15,12 @@ public class JwtProvider {
 
     private final Key secretKey;
     private final long maxAge;
+    private final long refreshMaxAge;
 
     public JwtProvider(JwtProperties jwtProperties) {
         this.secretKey = generateSecretKey(jwtProperties.secret());
         this.maxAge = jwtProperties.maxAge();
+        this.refreshMaxAge = jwtProperties.refreshMaxAge();
     }
 
     public String generateToken(String email, Map<String, Object> payload) {
@@ -42,6 +44,23 @@ public class JwtProvider {
                 .issuedAt(now)
                 .expiration(expirationAt)
                 .add(payload)
+                .build();
+    }
+
+    public String generateRefreshToken() {
+        Claims claims = generateRefreshClaims();
+        return Jwts.builder()
+                .signWith(secretKey)
+                .claims(claims)
+                .compact();
+    }
+
+    private Claims generateRefreshClaims() {
+        Date now = new Date();
+        Date expirationAt = new Date(now.getTime() + refreshMaxAge);
+        return Jwts.claims()
+                .issuedAt(now)
+                .expiration(expirationAt)
                 .build();
     }
 }

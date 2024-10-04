@@ -25,8 +25,10 @@ public class AuthService {
 
         Map<String, Object> payload = Map.of("role", "member");
         String accessToken = jwtProvider.generateToken(request.email(), payload);
+        String refreshToken = jwtProvider.generateRefreshToken();
         return JwtAuthToken.builder()
                 .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 }

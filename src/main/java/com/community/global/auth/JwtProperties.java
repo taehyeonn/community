@@ -5,11 +5,10 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesBindin
 
 @ConfigurationProperties("jwt")
 @ConfigurationPropertiesBinding
-public record JwtProperties(String secret, Long maxAge) {
+public record JwtProperties(
+        String secret,
+        Long maxAge,
+        Long refreshMaxAge
+) {
 
-    public JwtProperties {
-        if (maxAge == null) {
-            maxAge = 1_800L;
-        }
-    }
 }
