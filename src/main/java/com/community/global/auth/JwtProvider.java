@@ -6,14 +6,15 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class JwtProvider {
 
-    private final Key secretKey;
+    private final SecretKey secretKey;
     private final long maxAge;
     private final long refreshMaxAge;
 
@@ -31,7 +32,7 @@ public class JwtProvider {
                 .compact();
     }
 
-    private Key generateSecretKey(String secret) {
+    private SecretKey generateSecretKey(String secret) {
         byte[] keyBytes = Decoders.BASE64.decode(secret);
         return Keys.hmacShaKeyFor(keyBytes);
     }
@@ -62,5 +63,19 @@ public class JwtProvider {
                 .issuedAt(now)
                 .expiration(expirationAt)
                 .build();
+    }
+
+    public String getEmail(final String jwt) {
+        Claims claims = getClaims(jwt);
+        return Optional.ofNullable(claims.get("sub", String.class))
+                .orElseThrow(() -> new RuntimeException("잘못된 토큰입니다."));
+    }
+
+    private Claims getClaims(final String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 }

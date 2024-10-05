@@ -5,10 +5,7 @@ import com.community.member.service.MemberService;
 import com.community.member.service.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -26,5 +23,11 @@ public class MemberController {
         return ResponseEntity
                 .created(uri)
                 .body(response);
+    }
+
+    @GetMapping("/test") //todo: 테스트용 임시 메서드
+    public ResponseEntity<Object> test() {
+        System.out.println("zz");
+        return ResponseEntity.ok().build();
     }
 }
