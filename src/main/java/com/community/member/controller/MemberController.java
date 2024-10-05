@@ -1,5 +1,6 @@
 package com.community.member.controller;
 
+import com.community.auth.domain.Auth;
 import com.community.member.controller.dto.MemberCreateRequest;
 import com.community.member.service.MemberService;
 import com.community.member.service.dto.MemberDto;
@@ -26,8 +27,8 @@ public class MemberController {
     }
 
     @GetMapping("/test") //todo: 테스트용 임시 메서드
-    public ResponseEntity<Object> test() {
-        System.out.println("zz");
+    public ResponseEntity<Object> test(@Auth Long memberId) {
+        System.out.println("Test(): Member Id: " + memberId);
         return ResponseEntity.ok().build();
     }
 }
