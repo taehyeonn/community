@@ -1,16 +1,16 @@
 package com.community.login.controller;
 
+import com.community.login.controller.dto.AccessToken;
 import com.community.login.service.LoginService;
-import com.community.login.controller.dto.JwtAuthToken;
+import com.community.login.service.dto.JwtTokenDto;
 import com.community.login.controller.dto.LoginRequest;
+import com.community.login.controller.dto.RefreshAccessToken;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/members/login")
+@RequestMapping("/api/v1")
 public class LoginController {
 
     private final LoginService loginService;
@@ -19,9 +19,17 @@ public class LoginController {
         this.loginService = loginService;
     }
 
-    @PostMapping
-    public ResponseEntity<JwtAuthToken> login(@RequestBody LoginRequest request) {
-        JwtAuthToken response = loginService.login(request);
+    @PostMapping("/login")
+    public ResponseEntity<AccessToken> login(@RequestBody LoginRequest request) {
+        JwtTokenDto response = loginService.login(request);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, response.refreshTokenCookie().toString())
+                .body(response.accessToken());
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<RefreshAccessToken> refresh(@CookieValue(name = "refreshToken") String refreshToken) {
+        RefreshAccessToken response = loginService.refresh(refreshToken);
         return ResponseEntity.ok(response);
     }
 }
