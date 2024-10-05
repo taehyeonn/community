@@ -24,8 +24,8 @@ public class JwtProvider {
         this.refreshMaxAge = jwtProperties.refreshMaxAge();
     }
 
-    public String generateToken(String email, Map<String, Object> payload) {
-        Claims claims = generateClaims(email, payload);
+    public String generateToken(Long memberId, Map<String, Object> payload) {
+        Claims claims = generateClaims(memberId, payload);
         return Jwts.builder()
                 .signWith(secretKey)
                 .claims(claims)
@@ -37,11 +37,11 @@ public class JwtProvider {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    private Claims generateClaims(String email, Map<String, Object> payload) {
+    private Claims generateClaims(Long memberId, Map<String, Object> payload) {
         Date now = new Date();
         Date expirationAt = new Date(now.getTime() + maxAge);
         return Jwts.claims()
-                .subject(email)
+                .subject(String.valueOf(memberId))
                 .issuedAt(now)
                 .expiration(expirationAt)
                 .add(payload)
@@ -65,17 +65,21 @@ public class JwtProvider {
                 .build();
     }
 
-    public String getEmail(final String jwt) {
-        Claims claims = getClaims(jwt);
+    public String getMemberId(final String token) {
+        Claims claims = getClaims(token);
         return Optional.ofNullable(claims.get("sub", String.class))
                 .orElseThrow(() -> new RuntimeException("잘못된 토큰입니다."));
     }
 
     private Claims getClaims(final String token) {
-        return Jwts.parser()
-                .verifyWith(secretKey)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+        try {
+            return Jwts.parser()
+                    .verifyWith(secretKey)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+        } catch (Exception e) {
+            throw new IllegalArgumentException("유효하지 않은 토큰입니다.");
+        }
     }
 }

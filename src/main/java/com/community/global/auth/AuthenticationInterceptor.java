@@ -22,8 +22,8 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         final String authorization = request.getHeader(AUTH_HEADER);
         final String token = extractToken(authorization);
 
-        String email = jwtProvider.getEmail(token);
-        System.out.println(email);
+        String memberId = jwtProvider.getMemberId(token);
+        System.out.println("memberId = " + memberId);
 
         return true;
     }

@@ -19,12 +19,11 @@ public class LoginService {
     private final MemberRepository memberRepository;
 
     public JwtAuthToken login(final LoginRequest request) {
-        if (!memberRepository.existsMemberByEmail(Email.from(request.email()))) {
-            throw new IllegalArgumentException("멤버를 조회할 수 없습니다.");
-        }
+        Member member = memberRepository.findMemberByEmail(Email.from(request.email()))
+                .orElseThrow(() -> new IllegalArgumentException("회원을 조회할 수 없습니다."));
 
         Map<String, Object> payload = Map.of("role", "member");
-        String accessToken = jwtProvider.generateToken(request.email(), payload);
+        String accessToken = jwtProvider.generateToken(member.getId(), payload);
         String refreshToken = jwtProvider.generateRefreshToken();
         return JwtAuthToken.builder()
                 .accessToken(accessToken)
