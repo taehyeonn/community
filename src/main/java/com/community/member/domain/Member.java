@@ -42,7 +42,7 @@ public class Member extends BaseEntity {
     ) {
         return new Member(
                 null,
-                Email.of(email, memberRepository),
+                Email.signUp(email, memberRepository),
                 Password.of(password, passwordEncoder),
                 LocalDateTime.now(),
                 null

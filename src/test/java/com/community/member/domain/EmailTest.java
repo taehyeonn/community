@@ -27,7 +27,7 @@ public class EmailTest {
     void createEmail_success() {
         String validEmail = "test@gmail.com";
 
-        Email response = Email.of(validEmail, memberRepository);
+        Email response = Email.signUp(validEmail, memberRepository);
 
         assertThat(response).isNotNull();
         assertThat(response.getValue()).isEqualTo(validEmail);
@@ -38,7 +38,7 @@ public class EmailTest {
     void createEmail_nullEmail() {
         String nullEmail = null;
 
-        assertThatThrownBy(() -> Email.of(nullEmail, memberRepository))
+        assertThatThrownBy(() -> Email.signUp(nullEmail, memberRepository))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -47,7 +47,7 @@ public class EmailTest {
     void createEmail_emptyEmail() {
         String emptyEmail = "";
 
-        assertThatThrownBy(() -> Email.of(emptyEmail, memberRepository))
+        assertThatThrownBy(() -> Email.signUp(emptyEmail, memberRepository))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -56,7 +56,7 @@ public class EmailTest {
     void createEmail_invalidEmail() {
         String invalidEmail = "@.";
 
-        assertThatThrownBy(() -> Email.of(invalidEmail, memberRepository))
+        assertThatThrownBy(() -> Email.signUp(invalidEmail, memberRepository))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -65,7 +65,7 @@ public class EmailTest {
     void createEmail_invalidEmail2() {
         String invalidEmail = "invalid@email";
 
-        assertThatThrownBy(() -> Email.of(invalidEmail, memberRepository))
+        assertThatThrownBy(() -> Email.signUp(invalidEmail, memberRepository))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -74,7 +74,7 @@ public class EmailTest {
     void createEmail_invalidEmail3() {
         String invalidEmail = "invalid-email";
 
-        assertThatThrownBy(() -> Email.of(invalidEmail, memberRepository))
+        assertThatThrownBy(() -> Email.signUp(invalidEmail, memberRepository))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -86,7 +86,7 @@ public class EmailTest {
         Member member = Member.of(existedEmail, "testPassword", passwordEncoder, memberRepository);
         memberRepository.save(member);
 
-        assertThatThrownBy(() -> Email.of(existedEmail, memberRepository))
+        assertThatThrownBy(() -> Email.signUp(existedEmail, memberRepository))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

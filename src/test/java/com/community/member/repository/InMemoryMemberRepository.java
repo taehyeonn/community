@@ -6,6 +6,7 @@ import com.community.member.domain.vo.Email;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class InMemoryMemberRepository implements MemberRepository {
 
@@ -23,5 +24,13 @@ public class InMemoryMemberRepository implements MemberRepository {
         return members.values()
                 .stream()
                 .anyMatch(member -> member.getEmail().getValue().equals(email.getValue()));
+    }
+
+    @Override
+    public Optional<Member> findMemberByEmail(Email email) {
+        return members.values()
+                .stream()
+                .filter(member -> member.getEmail().getValue().equals(email.getValue()))
+                .findFirst();
     }
 }

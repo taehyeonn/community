@@ -23,9 +23,14 @@ public class Email {
         this.value = email;
     }
 
-    public static Email of(String email, MemberRepository memberRepository) {
+    public static Email signUp(String email, MemberRepository memberRepository) {
         validateEmail(email);
         checkDuplicateEmail(email, memberRepository);
+        return new Email(email);
+    }
+
+    public static Email from(String email) {
+        validateEmail(email);
         return new Email(email);
     }
 
